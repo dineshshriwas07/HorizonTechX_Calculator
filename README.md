@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # HorizonTechX Calculator Pro
 
 A premium, responsive calculator web application built with vanilla
@@ -32,3 +33,6 @@ copy, and PNG screenshot export.
 - Google Fonts: Inter + JetBrains Mono
 
 ## Folder Structure
+=======
+# HorizonTechX_Calculator
+>>>>>>> ff9e7e91236b649827a1dffbbb12cf0efb278725
