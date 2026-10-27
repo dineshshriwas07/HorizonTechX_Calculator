@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HorizonTechX Calculator Pro — responsive calculator with history, memory, themes, and screenshot export." />
+  <title>HorizonTechX Calculator Pro</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/history.js" defer></script>
+  <script src="js/calculator.js" defer></script>
+  <script src="js/screenshot.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true"><i class="ri-calculator-line"></i></span>
+        <div class="brand-text">
+          <h1>HorizonTechX</h1>
+          <p>Calculator Pro</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle theme" title="Toggle theme">
+          <i class="ri-moon-line" id="themeIcon" aria-hidden="true"></i>
+        </button>
+        <button id="historyToggle" class="icon-btn history-toggle-btn" type="button" aria-label="Toggle history" title="History" aria-controls="historyPanel" aria-expanded="false">
+          <i class="ri-history-line" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="calculator-card" id="calculatorCard" aria-label="Calculator">
+        <div class="memory-bar" role="group" aria-label="Memory functions">
+          <button class="mem-btn" data-mem="clear" type="button" title="Memory clear">MC</button>
+          <button class="mem-btn" data-mem="recall" type="button" title="Memory recall">MR</button>
+          <button class="mem-btn" data-mem="add" type="button" title="Memory add">M+</button>
+          <button class="mem-btn" data-mem="subtract" type="button" title="Memory subtract">M−</button>
+          <span class="memory-indicator" id="memoryIndicator" aria-live="polite" hidden>
+            <i class="ri-bookmark-fill" aria-hidden="true"></i> M
+          </span>
+        </div>
+
+        <div class="display" id="displayArea" aria-live="polite">
+          <div class="expression" id="expressionDisplay" aria-label="Current expression"></div>
+          <div class="result" id="resultDisplay" aria-label="Result">0</div>
+        </div>
+
+        <div class="keypad" role="group" aria-label="Calculator keypad">
+          <button class="key key-fn" data-action="clear" type="button">AC</button>
+          <button class="key key-fn" data-action="backspace" type="button" aria-label="Backspace">
+            <i class="ri-delete-back-2-line" aria-hidden="true"></i>
+          </button>
+          <button class="key key-fn" data-action="percent" type="button">%</button>
+          <button class="key key-op" data-op="/" type="button">÷</button>
+
+          <button class="key key-fn" data-action="sqrt" type="button">√</button>
+          <button class="key key-fn" data-action="square" type="button">x²</button>
+          <button class="key key-fn" data-action="sign" type="button">±</button>
+          <button class="key key-op" data-op="*" type="button">×</button>
+
+          <button class="key key-num" data-num="7" type="button">7</button>
+          <button class="key key-num" data-num="8" type="button">8</button>
+          <button class="key key-num" data-num="9" type="button">9</button>
+          <button class="key key-op" data-op="-" type="button">−</button>
+
+          <button class="key key-num" data-num="4" type="button">4</button>
+          <button class="key key-num" data-num="5" type="button">5</button>
+          <button class="key key-num" data-num="6" type="button">6</button>
+          <button class="key key-op" data-op="+" type="button">+</button>
+
+          <button class="key key-num" data-num="1" type="button">1</button>
+          <button class="key key-num" data-num="2" type="button">2</button>
+          <button class="key key-num" data-num="3" type="button">3</button>
+          <button class="key key-equals" data-action="equals" type="button" aria-label="Equals">=</button>
+
+          <button class="key key-num key-zero" data-num="0" type="button">0</button>
+          <button class="key key-num" data-num="." type="button">.</button>
+          <button class="key key-fn" data-action="copy" type="button" aria-label="Copy result" title="Copy result">
+            <i class="ri-file-copy-line" aria-hidden="true"></i>
+          </button>
+          <button class="key key-fn" data-action="screenshot" type="button" aria-label="Download screenshot" title="Screenshot">
+            <i class="ri-camera-line" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <p class="kbd-hint">
+          <i class="ri-keyboard-line" aria-hidden="true"></i>
+          Keyboard: <kbd>0–9</kbd> <kbd>+</kbd> <kbd>−</kbd> <kbd>×</kbd> <kbd>÷</kbd> <kbd>.</kbd> <kbd>Enter</kbd> <kbd>Backspace</kbd> <kbd>Esc</kbd>
+        </p>
+      </section>
+
+      <aside class="history-panel" id="historyPanel" aria-label="Calculation history">
+        <div class="history-head">
+          <h2><i class="ri-history-line" aria-hidden="true"></i> History</h2>
+          <div class="history-head-actions">
+            <button id="clearHistoryBtn" class="icon-btn danger" type="button" aria-label="Clear history" title="Clear history">
+              <i class="ri-delete-bin-6-line" aria-hidden="true"></i>
+            </button>
+            <button id="historyCloseBtn" class="history-close" type="button" aria-label="Close history" title="Close">
+              <i class="ri-close-line" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <ul class="history-list" id="historyList" aria-live="polite"></ul>
+
+        <div class="history-empty" id="historyEmpty">
+          <i class="ri-inbox-line" aria-hidden="true"></i>
+          <p>No calculations yet</p>
+          <span>Your completed calculations will appear here.</span>
+        </div>
+      </aside>
+    </main>
+
+    <div class="history-backdrop" id="historyBackdrop" aria-hidden="true"></div>
+    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  </div>
+</body>
+</html>
